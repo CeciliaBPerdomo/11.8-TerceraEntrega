@@ -1,7 +1,7 @@
 # libros/views.py 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Libro, AutorLibro, Resena
-from .forms import LibroForm
+from .forms import LibroForm, AutorLibroForm, ResenaForm
 
 # Create your views here.
 def index(request):
@@ -48,6 +48,23 @@ def post_autores(request):
         post_autores = AutorLibro.objects.all()
     return render(request, 'libros/autores.html', context={'autores': post_autores})
 
+def autores_create(request):
+    # Lógica para crear un libro
+    if request.method == 'POST':
+        # Procesar el formulario de creación de publicación
+        form = AutorLibroForm(request.POST) 
+        if form.is_valid():
+            post = form.save(commit=False)
+            if request.user.is_authenticated:
+                post.autor = request.user
+                post.save()
+                return redirect('libros:post_autores')  
+            else:
+                form.add_error(None, "Debes iniciar sesión para agregar un autor.")
+    else:
+        form = AutorLibroForm()
+    return render(request, 'libros/autores_create.html', context={'form': form})
+
 ###########################################################################################################################################
 ## Vista reseñas
 def post_resenas(request):
@@ -65,3 +82,27 @@ def post_resenas(request):
         resena.empty_stars = [1] * (5 - resena.puntuacion)
 
     return render(request, 'libros/resena.html', context={'resenas': post_resenas})
+
+def resena_create(request, libro_id=None):
+    libro = None
+    if libro_id:
+        libro = get_object_or_404(Libro, id=libro_id)
+
+    if request.method == 'POST':
+        form = ResenaForm(request.POST)
+        if form.is_valid():
+            resena = form.save(commit=False)
+
+            # Si vino por URL con un libro específico, usar ese
+            if libro:
+                resena.libro = libro
+            resena.usuario = request.user
+            resena.save()
+            return redirect('libros:post_resenas')
+    else:
+        form = ResenaForm()
+
+    return render(request, 'libros/resena_create.html', {
+        'form': form,
+        'libro': libro,
+    })

@@ -46,6 +46,14 @@ class Command(BaseCommand):
             }
         )
 
+        autor4, _ = AutorLibro.objects.get_or_create(
+            nombre='Jennifer L. Armentrout',
+            defaults={
+                'biografia': 'Jennifer Lynn Armentrout también conocida por el seudónimo de J. Lynn, es una escritora estadounidense de romance contemporáneo, new adult y fantasía. Varias de sus obras han aparecido en la lista de los más vendidos del The New York Times.',
+                'fecha_nacimiento': date(1980, 6, 11)
+            }
+        )
+
         # Crear libros
         libro1, _ = Libro.objects.get_or_create(
             titulo='Cien años de soledad',

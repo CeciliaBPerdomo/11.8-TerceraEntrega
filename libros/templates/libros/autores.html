@@ -11,7 +11,7 @@
         </p>
     </div>
     <div class="mt-4">
-        <a href="#" class="btn btn-success btn-lg">Agregar autor</a>
+        <a href="{% url 'libros:autores_create' %}" class="btn btn-dark btn-lg">Agregar autor</a>
     </div>
 </div>
 
@@ -31,7 +31,7 @@
         {% for autor in autores %}
         <tr>
             <td>{{ autor.nombre }}</td>
-            <td>{{ autor.biografia|truncatewords:20 }}</td>
+            <td>{{ autor.biografia }}</td>
             <td>{{ autor.fecha_nacimiento|date:"d/m/Y" }}</td>
         </tr>
         {% empty %}
