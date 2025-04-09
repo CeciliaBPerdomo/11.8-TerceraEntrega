@@ -1,11 +1,13 @@
 # libros/views.py 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Libro, AutorLibro, Resena
+from .forms import LibroForm
 
 # Create your views here.
 def index(request):
     return render(request, 'libros/index.html')
 
+###########################################################################################################################################
 ## Vista libros
 def post_libros(request):
     # Obtener el valor de la búsqueda desde la URL
@@ -17,10 +19,24 @@ def post_libros(request):
         post_libros = Libro.objects.all()
     return render(request, 'libros/libros.html', context={'libros': post_libros})
 
-def post_create(request):
+def libros_create(request):
     # Lógica para crear un libro
-    return render(request, 'libros/post_create.html')
+    if request.method == 'POST':
+        # Procesar el formulario de creación de publicación
+        form = LibroForm(request.POST, request.FILES) 
+        if form.is_valid():
+            post = form.save(commit=False)
+            if request.user.is_authenticated:
+                post.autor = request.user
+                post.save()
+                return redirect('libros:post_libros')  
+            else:
+                form.add_error(None, "Debes iniciar sesión para agregar un libro.")
+    else:
+        form = LibroForm()
+    return render(request, 'libros/libros_create.html', context={'form': form})
 
+###########################################################################################################################################
 ## Vista autores
 def post_autores(request):
     # Obtener el valor de la búsqueda desde la URL
@@ -32,7 +48,7 @@ def post_autores(request):
         post_autores = AutorLibro.objects.all()
     return render(request, 'libros/autores.html', context={'autores': post_autores})
 
-
+###########################################################################################################################################
 ## Vista reseñas
 def post_resenas(request):
     # Obtener el valor de la búsqueda desde la URL
@@ -42,4 +58,10 @@ def post_resenas(request):
     else:
         # Obtener todas las publicaciones de la base de datos
         post_resenas = Resena.objects.all()
+
+     # Preparar las listas de estrellas para cada reseña
+    for resena in post_resenas:
+        resena.full_stars = [1] * resena.puntuacion
+        resena.empty_stars = [1] * (5 - resena.puntuacion)
+
     return render(request, 'libros/resena.html', context={'resenas': post_resenas})

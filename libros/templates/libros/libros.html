@@ -11,7 +11,7 @@
         </p>
     </div>
     <div class="mt-4">
-        <a href="#" class="btn btn-success btn-lg">Agregar libros</a>
+        <a href="{% url 'libros:libros_create' %}" class="btn btn-dark btn-lg">Agregar libros</a>
     </div>
 </div>
 <form action="{% url 'libros:post_libros' %}" method="get">

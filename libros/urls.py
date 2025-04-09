@@ -8,7 +8,7 @@ urlpatterns = [
 
      # Libros
     path('libros/', views.post_libros, name='post_libros'), 
-   # path('libros/post/create', views.post_create, name='post_create'),  # Crear un nuevo libro
+    path('libros/create', views.libros_create, name='libros_create'),  # Crear un nuevo libro
 
    # Autores    
     path('autores/', views.post_autores, name='post_autores'),
