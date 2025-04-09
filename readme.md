@@ -1,5 +1,5 @@
 <h1 align="center">Mi blog de libros</h1>
-<p align="center"><img src="myAvatar.png"></p>
+<p align="center"><img src="myAvatar.png" style="width: 50%"></p>
 <p align="center">by <b>Cecilia 💛 Perdomo</b></p>
 
 
@@ -10,7 +10,7 @@
 
 - Crea la base de datos: `python manage.py migrate`
     - 🧠 Si agregás o modificás un modelo, siempre tenés que correr makemigrations y migrate, así Django sabe qué cambios reflejar en la base de datos.
-        - `python manage.py makemigrations` --> (None)
+        - `python manage.py makemigrations`
         - `python manage.py migrate`
     - Crear usuario administrador: `python manage.py createsuperuser`
     - Para borrar toda la base de datos: `rm db.sqlite3`

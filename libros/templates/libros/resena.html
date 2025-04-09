@@ -1,0 +1,21 @@
+{% extends "libros/base.html" %}
+{% block title %}Reseñas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between mb-4">
+    <div>
+        <h1>Reseñas</h1>
+        <p>
+            Bienvenido a la sección de reseñas. Aquí puedes encontrar una lista de reseñas sobre los libros de nuestra
+            bibilioteca.
+        </p>
+    </div>
+    <div class="mt-4">
+        <a href="#" class="btn btn-success btn-lg">Escribir reseña</a>
+    </div>
+</div>
+
+<form action="{% url 'libros:post_resenas' %}" method="get">
+    <input type="text" name="busquedaResena" placeholder="Buscar..." type="submit" class="form-control mb-3">
+</form>
+{% endblock %}

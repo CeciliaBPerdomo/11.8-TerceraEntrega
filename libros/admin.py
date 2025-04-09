@@ -11,7 +11,7 @@ class AutorLibroAdmin(admin.ModelAdmin):
 # Personalización de la vista de Libro
 @admin.register(Libro)
 class LibroAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'autor_libro', 'fecha_publicacion')
+    list_display = ('titulo', 'autor_libro', 'fecha_publicacion', 'portada')
     list_filter = ('autor_libro', 'fecha_publicacion')
     search_fields = ('titulo', 'autor_libro__nombre')
 

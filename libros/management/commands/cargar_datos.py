@@ -3,6 +3,17 @@ from django.contrib.auth.models import User
 from libros.models import AutorLibro, Libro, Resena
 from datetime import date
 
+# Imagenes de portada
+from django.conf import settings
+from django.core.files import File
+from pathlib import Path
+
+# Rutas de las imágenes para cada libro
+media_root = Path(settings.MEDIA_ROOT)  # Aseguramos que la ruta sea un objeto Path
+portada_libro1 = media_root / 'libros' / 'img' / 'cien.jpeg'
+portada_libro2 = media_root / 'libros' / 'img' / 'orgullo.jpg'
+portada_libro3 = media_root / 'libros' / 'img' / 'rosasyespinas.jpg'
+
 class Command(BaseCommand):
     help = 'Carga autores, libros y reseñas de ejemplo'
 
@@ -42,6 +53,10 @@ class Command(BaseCommand):
             autor_libro=autor1,
             fecha_publicacion=date(1967, 5, 30)
         )
+        # Asignar portada específica para el libro1
+        if portada_libro1.exists():
+            with open(portada_libro1, 'rb') as f:
+                libro1.portada.save('cien.jpeg', File(f), save=True)
 
         libro2, _ = Libro.objects.get_or_create(
             titulo='Orgullo y prejuicio',
@@ -49,6 +64,10 @@ class Command(BaseCommand):
             autor_libro=autor2,
             fecha_publicacion=date(1813, 1, 28)
         )
+        # Asignar portada específica para el libro2
+        if portada_libro2.exists():
+            with open(portada_libro2, 'rb') as f:
+                libro2.portada.save('orgullo.jpg', File(f), save=True)
 
         libro3, _ = Libro.objects.get_or_create(
             titulo='Una corte de rosas y espinas',
@@ -56,6 +75,10 @@ class Command(BaseCommand):
             autor_libro=autor3,
             fecha_publicacion=date(2015, 5, 5)
         )
+        # Asignar portada específica para el libro3
+        if portada_libro3.exists():
+            with open(portada_libro3, 'rb') as f:
+                libro3.portada.save('rosasyespinas.jpg', File(f), save=True)
 
         # Crear reseñas
         Resena.objects.get_or_create(

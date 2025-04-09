@@ -20,7 +20,7 @@ class Libro(models.Model):
     descripcion = models.TextField()
     autor_libro = models.ForeignKey(AutorLibro, on_delete=models.CASCADE, related_name='libros')
     fecha_publicacion = models.DateField()
-    portada = models.ImageField(upload_to='portadas/', blank=True, null=True)
+    portada = models.ImageField(upload_to='libros/img/', blank=True, null=True)
 
     def __str__(self):
         return self.titulo

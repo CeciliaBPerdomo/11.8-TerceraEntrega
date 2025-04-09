@@ -2,5 +2,65 @@
 {% block title %}Libros{% endblock %}
 
 {% block content %}
-  <h1>Libros</h1>
+<div class="d-flex justify-content-between mb-4">
+    <div>
+        <h1>Lista de libros</h1>
+        <p>
+            Bienvenido a la sección de libros. Aquí puedes encontrar una lista de libros disponibles en nuestra
+            biblioteca.
+        </p>
+    </div>
+    <div class="mt-4">
+        <a href="#" class="btn btn-success btn-lg">Agregar libros</a>
+    </div>
+</div>
+<form action="{% url 'libros:post_libros' %}" method="get">
+    <input type="text" name="busqueda" placeholder="Buscar..." type="submit" class="form-control mb-3">
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Portada</th>
+            <th>Nombre del Libro</th>
+            <th>Autor</th>
+            <th>Fecha de Publicación</th>
+            <th>Descripción</th>
+            <th>Agregar tu reseña</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for libro in libros %}
+        <tr>
+            <td class="text-center">
+                {% if libro.portada %}
+                <img src="{{ libro.portada.url }}" alt="{{ libro.titulo }} portada" width="50" height="75">
+                {% else %}
+                <p>No disponible</p>
+                {% endif %}
+            </td>
+            <td class="align-middle">{{ libro.titulo }}</td>
+            <td class="align-middle">{{ libro.autor_libro.nombre }}</td>
+            <td class="align-middle">{{ libro.fecha_publicacion }}</td>
+            <td class="align-middle">{{ libro.descripcion }}</td>
+            <td class="align-middle">
+                <!-- {% if libro.resenas.all %}
+                 
+                  {% for resena in libro.resenas.all %}
+                    <p><strong>{{ resena.usuario.username }}:</strong> {{ resena.contenido|truncatewords:10 }}...</p>
+                  {% endfor %}
+                {% else %}
+                  <p>No hay reseñas disponibles.</p>
+                {% endif %} -->
+                <!-- Botón para redirigir a la página de crear reseña -->
+                <a href="#" class="btn btn-dark btn-sm">Crear reseña</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hay libros disponibles.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

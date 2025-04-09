@@ -3,7 +3,7 @@
 {% block title %}Inicio{% endblock %}
 
 {% block content %}
-  <h1>Bienvenid@s a Mi Blog de Libros</h1>
+  <h1>Bienvenid@s a mi blog de libros</h1>
   <p>Descubre libros, autores y más.</p>
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -36,7 +36,7 @@
           </p>
         </div>
         <div class="card-footer text-center">
-          <a href="#" class="btn btn-dark w-50">Ver Autores</a>
+          <a href="{% url 'libros:post_autores' %}" class="btn btn-dark w-50">Ver Autores</a>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@
           </p>
         </div>
         <div class="card-footer text-center">
-          <a href="#" class="btn btn-dark w-50">Ver Reseñas</a>
+          <a href="{% url 'libros:post_resenas' %}" class="btn btn-dark w-50">Ver Reseñas</a>
         </div>
       </div>
     </div>
